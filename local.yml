@@ -12,6 +12,8 @@
       - tasks/deploy_glances.yml
       - tasks/deploy_tmux.yml
       - tasks/deploy_tailscale.yml
+      - tasks/configure_networking.yml
+      - tasks/configure_storage.yml
 
     failure_counter: 0
     pushover_token: !vault |

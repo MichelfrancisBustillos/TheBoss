@@ -1,0 +1,41 @@
+- name: Configure Storage
+  block:
+    - name: Create mount point directory
+      ansible.builtin.file:
+        path: /mnt/Stash
+        state: directory
+        owner: '0775'
+      become: true
+
+    - name: Mount Stash drive
+      ansible.builtin.mount:
+        path: /mnt/Stash
+        src: /dev/disk/by-uuid/{{ stash_disk_uuid }}
+        fstype: ext4
+        opts: defaults
+        state: mounted
+      become: true
+
+    - name: Install Samba
+      ansible.builtin.apt:
+        name: samba
+        state: present
+        update_cache: true
+      become: true
+
+    - name: Configure Samba share for Stash
+      ansible.builtin.copy:
+        src: files/smb.conf
+        dest: /etc/samba/smb.conf
+        owner: root
+        group: root
+        mode: '0644'
+      become: true
+
+  rescue:
+    - name: Handle task failure
+      ansible.builtin.debug:
+        msg: "A task in the storage configuration block failed"
+    - name: Increment failure counter
+      ansible.builtin.set_fact:
+        failure_counter: "{{ failure_counter | default(0) | int + 1 }}"
