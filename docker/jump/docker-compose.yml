@@ -1,0 +1,15 @@
+services:
+    web:
+        image: daledavies/jump
+        ports:
+            - 8123:8080
+        volumes:
+            - ./backgrounds:/backgrounds
+            - ./favicon:/favicon
+            - ./search:/search
+            - ./sites:/sites
+        environment:
+            SITENAME: 'Katoteros Landing Page'
+            CUSTOMGREETING: 'Welcome, Traveller'
+            ALTLAYOUT: true
+        restart: unless-stopped

@@ -1,0 +1,19 @@
+{
+    "default": {
+        "nofollow": true,
+        "icon": "my-default-icon.png",
+        "newtab": false
+    },
+    "sites": [
+        {
+            "name": "eBooks",
+            "url" : "https://localhost:8081/",
+            "description": "eBooks"
+        },
+        {
+            "name": "Container Management",
+            "url" : "https://localhost:9000/",
+            "description": "Portainer - Container Management"
+        }
+   ]
+}
