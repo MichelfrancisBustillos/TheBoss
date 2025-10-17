@@ -7,13 +7,23 @@
     "sites": [
         {
             "name": "eBooks",
-            "url" : "https://localhost:8081/",
+            "url" : "https://10.0.0.1:8081/",
             "description": "eBooks"
         },
         {
             "name": "Container Management",
-            "url" : "https://localhost:9000/",
+            "url" : "https://10.0.0.1:9000/",
             "description": "Portainer - Container Management"
+        },
+        {
+            "name": "Kiwix",
+            "url" : "http://10.0.0.1:8083/",
+            "description": "Kiwix - Offline Wikipedia and more"
+        },
+        {
+            "name": "Filebrowser",
+            "url" : "http://10.0.0.1:8090/",
+            "description": "Filebrowser - File Management"
         }
    ]
 }

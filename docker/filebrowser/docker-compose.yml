@@ -1,0 +1,10 @@
+name: Filebrowser
+services:
+    filebrowser:
+        volumes:
+            - /mnt/Stash:/srv
+            - ./database:/database
+            - ./config:/config
+        ports:
+            - 8090:80
+        image: filebrowser/filebrowser

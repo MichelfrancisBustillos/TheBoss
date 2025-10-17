@@ -2,7 +2,7 @@ services:
     web:
         image: daledavies/jump
         ports:
-            - 8123:8080
+            - 80:8080
         volumes:
             - ./backgrounds:/backgrounds
             - ./favicon:/favicon

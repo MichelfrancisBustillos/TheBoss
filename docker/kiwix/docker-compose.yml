@@ -6,5 +6,5 @@ services:
     ports:
       - "8083:80" # Map host port 80 to container port 80 (or choose another host port)
     volumes:
-      - ./data:/data # Mount your ZIM files directory to /data inside the container
+      - /mnt/Stash/ZIMs:/data # Mount your ZIM files directory to /data inside the container
     command: ["--port", "80", "*.zim"] # Specify the port and to serve all .zim files
