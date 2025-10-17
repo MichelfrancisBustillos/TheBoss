@@ -1,0 +1,89 @@
+- name: Configure bash settings
+  block:
+    - name: Download FastFetch
+      ansible.builtin.get_url:
+        url: https://github.com/fastfetch-cli/fastfetch/releases/download/2.53.0/fastfetch-linux-amd64-polyfilled.deb
+        dest: /tmp/fastfetch.deb
+        mode: '0755'
+      become: true
+
+    - name: Install FastFetch
+      ansible.builtin.apt:
+        deb: /tmp/fastfetch.deb
+      become: true
+
+    - name: Create FastFetch config directory
+      ansible.builtin.file:
+        path: /home/michel/.config/fastfetch
+        state: directory
+        mode: '0755'
+      become: true
+
+    - name: Copy FastFetch config file
+      ansible.builtin.copy:
+        src: files/fastfetch.jsonc
+        dest: /home/michel/.config/fastfetch/config.jsonc
+        owner: michel
+        mode: '0644'
+      become: true
+
+    - name: Copy bashrc
+      ansible.builtin.copy:
+        src: files/.bashrc
+        dest: /home/michel/.bashrc
+        owner: michel
+        force: true
+        mode: '0644'
+      become: true
+
+    - name: Copy bash_aliases
+      ansible.builtin.copy:
+        src: files/.bash_aliases
+        dest: /home/michel/.bash_aliases
+        owner: michel
+        force: true
+        mode: '0644'
+      become: true
+
+    - name: No MOTD on SSH login
+      ansible.builtin.copy:
+        content: ""
+        dest: /home/michel/.hushlogin
+        force: true
+        owner: michel
+        mode: '0644'
+      become: true
+
+    - name: Overwrite local banner
+      ansible.builtin.copy:
+        content: ""
+        dest: /etc/issue
+        owner: root
+        group: root
+        mode: '0644'
+      become: true
+
+    - name: Overwrite remote banner
+      ansible.builtin.copy:
+        content: ""
+        dest: /etc/issue.net
+        owner: root
+        group: root
+        mode: '0644'
+      become: true
+
+    - name: Set NTP Server
+      ansible.builtin.lineinfile:
+        path: /etc/systemd/timesyncd.conf
+        regexp: '^#?NTP='
+        line: 'NTP=time.nist.gov'
+        state: present
+      become: true
+
+  rescue:
+    - name: Handle task failure
+      ansible.builtin.debug:
+        msg: "A task in the bash configuration block failed"
+    - name: Increment failure counter
+      ansible.builtin.set_fact:
+        failure_counter: "{{ failure_counter | default(0) | int + 1 }}"

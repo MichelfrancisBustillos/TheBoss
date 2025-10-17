@@ -1,0 +1,58 @@
+- name: Manage users and SSH configuration
+  block:
+    - name: Create ansible user
+      ansible.builtin.user:
+        name: ansible
+        system: true
+        groups: sudo
+      become: true
+
+    - name: Create michel
+      vars:
+        userpwd: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          37666635336438343366626133656533313034633332333263393162656136303631396636613734
+          3361396538363831623631396335313461386562653430650a623866323834346638396533313733
+          36633536353034623666633561643736366663383632386164326134383238346132303362616233
+          3966366136646332390a323364333765643338663739336163353734336565393136613537316639
+          6333
+      ansible.builtin.user:
+        name: michel
+        password: "{{ userpwd | string | password_hash('sha512', 'MnFBb7vfYNYt') }}" # noqa: jinja[invalid]
+        shell: /bin/bash
+        groups: sudo
+      become: true
+
+    - name: Copy SSH config
+      ansible.builtin.copy:
+        src: files/sshd_config
+        dest: /etc/ssh/sshd_config
+        owner: root
+        group: root
+        mode: '0600'
+      notify: Restart SSHD
+      become: true
+
+    - name: Deploy SSH Key
+      ansible.builtin.authorized_key:
+        user: michel
+        state: present
+        key: "{{ lookup('file', 'files/id_rsa.pub') }}"
+      become: true
+
+    - name: Configure sudoers log file
+      ansible.builtin.copy:
+        dest: /etc/sudoers.d/010_logfile
+        content: 'Defaults logfile="/var/log/sudo.log"'
+        owner: root
+        group: root
+        mode: '0440'
+      become: true
+
+  rescue:
+    - name: Handle task failure
+      ansible.builtin.debug:
+        msg: "A task in the user management block failed"
+    - name: Increment failure counter
+      ansible.builtin.set_fact:
+        failure_counter: "{{ failure_counter | default(0) | int + 1 }}"
