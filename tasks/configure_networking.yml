@@ -1,0 +1,53 @@
+- name: Configure Networking
+  block:
+    - name: Install packages
+      ansible.builtin.apt:
+        pkg:
+          - hostapd
+          - dnsmasq
+        state: present
+        update_cache: true
+      become: true
+
+    - name: Configure hostapd
+      ansible.builtin.copy:
+        src: files/hostapd.conf
+        dest: /etc/hostapd/hostapd.conf
+        owner: root
+        group: root
+        mode: '0644'
+      become: true
+
+    - name: Update /etc/default/hostapd to point to config file
+      ansible.builtin.lineinfile:
+        dest: /etc/default/hostapd
+        regexp: '^DAEMON_CONF='
+        line: 'DAEMON_CONF="/etc/hostapd/hostapd.conf"'
+      become: true
+
+    - name: Setup dnsmasq
+      ansible.builtin.copy:
+        src: files/dnsmasq.conf
+        dest: /etc/dnsmasq.conf
+        owner: root
+        group: root
+        mode: '0644'
+      become: true
+
+    - name: DNSMasq hosts
+      ansible.builtin.lineinfile:
+        dest: /etc/hosts.dnsmasq
+        create: yes
+        line: '10.0.0.1   theboss.local theboss'
+        owner: root
+        group: root
+        mode: '0644'
+      become: true
+
+  rescue:
+    - name: Handle task failure
+      ansible.builtin.debug:
+        msg: "A task in the networking configuration block failed"
+    - name: Increment failure counter
+      ansible.builtin.set_fact:
+        failure_counter: "{{ failure_counter | default(0) | int + 1 }}"

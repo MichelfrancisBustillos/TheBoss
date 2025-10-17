@@ -38,6 +38,15 @@
         update_cache: true
       become: true
 
+    - name: Copy Docker directory
+      ansible.builtin.copy:
+        src: files/docker
+        dest: /home/michel/docker
+        owner: michel
+        mode: '0755'
+        remote_src: false
+      become: true
+
   rescue:
     - name: Handle task failure
       ansible.builtin.debug:
