@@ -44,6 +44,26 @@
         mode: '0644'
       become: true
 
+    - name: Disable systemd-resolved
+      ansible.builtin.systemd:
+        name: systemd-resolved
+        enabled: false
+        state: stopped
+      become: true
+
+    - name: Unlink resolv.conf
+      ansible.builtin.file:
+        path: /etc/resolv.conf
+        state: absent
+      become: true
+    
+    - name: Create new resolv.conf
+      ansible.builtin.copy:
+        dest: /etc/resolv.conf
+        content: |
+          nameserver 8.8.8.8
+        become: true
+
     - name: Start and enable hostapd
       ansible.builtin.service:
         name: hostapd
