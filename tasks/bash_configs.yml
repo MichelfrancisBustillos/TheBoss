@@ -14,7 +14,7 @@
 
     - name: Create FastFetch config directory
       ansible.builtin.file:
-        path: /home/michel/.config/fastfetch
+        path: /home/boss/.config/fastfetch
         state: directory
         mode: '0755'
       become: true
@@ -22,16 +22,16 @@
     - name: Copy FastFetch config file
       ansible.builtin.copy:
         src: files/fastfetch.jsonc
-        dest: /home/michel/.config/fastfetch/config.jsonc
-        owner: michel
+        dest: /home/boss/.config/fastfetch/config.jsonc
+        owner: boss
         mode: '0644'
       become: true
 
     - name: Copy bashrc
       ansible.builtin.copy:
         src: files/.bashrc
-        dest: /home/michel/.bashrc
-        owner: michel
+        dest: /home/boss/.bashrc
+        owner: boss
         force: true
         mode: '0644'
       become: true
@@ -39,8 +39,8 @@
     - name: Copy bash_aliases
       ansible.builtin.copy:
         src: files/.bash_aliases
-        dest: /home/michel/.bash_aliases
-        owner: michel
+        dest: /home/boss/.bash_aliases
+        owner: boss
         force: true
         mode: '0644'
       become: true
@@ -48,9 +48,9 @@
     - name: No MOTD on SSH login
       ansible.builtin.copy:
         content: ""
-        dest: /home/michel/.hushlogin
+        dest: /home/boss/.hushlogin
         force: true
-        owner: michel
+        owner: boss
         mode: '0644'
       become: true
 

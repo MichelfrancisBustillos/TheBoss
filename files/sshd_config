@@ -9,7 +9,7 @@ X11Forwarding yes
 PrintMotd no
 AcceptEnv LANG LC_*
 Subsystem sftp /usr/lib/openssh/sftp-server
-AllowUsers michel ansible root
+AllowUsers boss ansible root
 ClientAliveInterval 15
 ClientAliveCountMax 3
 Banner /etc/issue.net

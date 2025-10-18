@@ -61,7 +61,7 @@ alias pip='pip3'
 alias rcreload='source ~/.bashrc'
 lc() { cd "$@" && ls; }
 alias cd='lc'
-alias ansiblepull='sudo ansible-pull -U https://github.com/MichelfrancisBustillos/ansible_pull.git --vault-password-file /home/michel/.vault_pass.txt'
+alias ansiblepull='sudo ansible-pull -U https://github.com/MichelfrancisBustillos/TheBoss.git --vault-password-file /home/boss/.vault_pass.txt'
 alias ip='ip -color=auto -human-readable -pretty'
 alias ports='sudo lsof -i -P -n | grep LISTEN'
 alias grep='rg --smart-case --multiline --follow'

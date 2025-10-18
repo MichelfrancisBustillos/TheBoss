@@ -8,44 +8,44 @@
 
     - name: Ensure TMUX config directory exists
       ansible.builtin.file:
-        path: /home/michel/.config/tmux
+        path: /home/boss/.config/tmux
         state: directory
-        owner: michel
+        owner: boss
         mode: '0755'
       become: true
 
     - name: Copy TMUX config file
       ansible.builtin.copy:
         src: files/tmux.conf
-        dest: /home/michel/.config/tmux/tmux.conf
-        owner: michel
+        dest: /home/boss/.config/tmux/tmux.conf
+        owner: boss
         mode: '0644'
       become: true
 
     - name: Ensure TMUX plugin manager directory exists
       ansible.builtin.file:
-        path: /home/michel/.config/tmux/plugins
+        path: /home/boss/.config/tmux/plugins
         state: directory
-        owner: michel
+        owner: boss
         mode: '0755'
       become: true
 
     - name: Clone TMUX plugin manager repository
       ansible.builtin.git:
         repo: https://github.com/tmux-plugins/tpm.git
-        dest: /home/michel/.config/tmux/plugins/tpm
+        dest: /home/boss/.config/tmux/plugins/tpm
         version: master
         update: true
       become: true
 
     - name: Install TMUX plugins
       ansible.builtin.command:
-        cmd: /home/michel/.config/tmux/plugins/tpm/scripts/install_plugins.sh
+        cmd: /home/boss/.config/tmux/plugins/tpm/scripts/install_plugins.sh
       register: tmux_plugin_install
       failed_when: tmux_plugin_install.rc != 0
       changed_when: "'success' in tmux_plugin_install.stdout"
       environment:
-        TMUX_PLUGIN_MANAGER_PATH: /home/michel/.config/tmux/plugins
+        TMUX_PLUGIN_MANAGER_PATH: /home/boss/.config/tmux/plugins
 
   rescue:
     - name: Handle failure

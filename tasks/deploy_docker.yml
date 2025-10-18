@@ -41,8 +41,8 @@
     - name: Copy Docker directory
       ansible.builtin.copy:
         src: files/docker
-        dest: /home/michel/docker
-        owner: michel
+        dest: /home/boss/docker
+        owner: boss
         mode: '0755'
         remote_src: false
       become: true
