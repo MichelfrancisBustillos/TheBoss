@@ -44,6 +44,20 @@
         mode: '0644'
       become: true
 
+    - name: Start and enable hostapd
+      ansible.builtin.service:
+        name: hostapd
+        state: started
+        enabled: true
+      become: true
+
+    - name: Start and enable dnsmasq
+      ansible.builtin.service:
+        name: dnsmasq
+        state: started
+        enabled: true
+      become: true
+
   rescue:
     - name: Handle task failure
       ansible.builtin.debug:
