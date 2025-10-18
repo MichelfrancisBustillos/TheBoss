@@ -62,7 +62,7 @@
         dest: /etc/resolv.conf
         content: |
           nameserver 8.8.8.8
-        become: true
+      become: true
 
     - name: Start and enable hostapd
       ansible.builtin.service:
