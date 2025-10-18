@@ -8,22 +8,26 @@
         {
             "name": "eBooks",
             "url" : "https://10.0.0.1:8081/",
-            "description": "eBooks"
+            "description": "eBooks",
+            "icon": "calibre"
         },
         {
             "name": "Container Management",
-            "url" : "https://10.0.0.1:9000/",
-            "description": "Portainer - Container Management"
+            "url" : "https://10.0.0.1:5001/",
+            "description": "DockGe - Container Management",
+            "icon": "dockge"
         },
         {
             "name": "Kiwix",
             "url" : "http://10.0.0.1:8083/",
-            "description": "Kiwix - Offline Wikipedia and more"
+            "description": "Kiwix - Offline Wikipedia and more",
+            "icon": "kiwix"    
         },
         {
             "name": "Filebrowser",
             "url" : "http://10.0.0.1:8090/",
-            "description": "Filebrowser - File Management"
+            "description": "Filebrowser - File Management",
+            "icon": "filebrowser"
         }
    ]
 }
